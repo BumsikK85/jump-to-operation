@@ -2,8 +2,8 @@
   "name": "jump-to-operation",
   "title": "Jump to Operation",
   "description": "Right-click a message and jump to its operation.",
-  "version": "1.0.0",
-  "author": "YourName",
+  "version": "1.0.1",
+  "author": "saeha",
   "main": "main.js",
   "dependencies": {
     "jump-to-operation": "file:"
