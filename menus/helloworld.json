@@ -1,0 +1,12 @@
+{
+
+  "context-menu": {
+    "#diagram-canvas": [
+      {
+        "label": "jumpToOperation",
+        "id": "example.submenu",
+        "command": "jump-to-operation:from-selected-message"
+      }
+    ]
+  }
+}
