@@ -16,26 +16,7 @@ function jumpToOperationFromSelectedMessage() {
 				app.workspaceManager.openDiagram(diagrams[0]);
 			}
 			app.modelExplorer.select(operation, true);
-			if(operation.tags.length > 0) {
-				const tag = operation.tags[0];
-				if(tag.kind == "string" && tag.name.includes("link")) {
-					const url = tag.value;
-					if (url && url.startsWith("http")) {
-						exec(`start ${url}`, (error) => {
-							// if (error) {
-							// 	console.error(`Failed to open URL: ${error.message}`);
-							// 	app.toast.error(`Failed to open URL: ${error.message}`);
-							// }
-						});
-					} else {
-						app.toast.error("The tag value is not a valid URL.");
-					}
-				}
-				if(tag.name === "operation") {
-					app.modelExplorer.select(tag, true);
-
-				}
-			}
+			
 			// app.diagrams.selectView(app.repository.getViewsOf(operation)[0]);
 
 			// searchAndLaunchApp(parent.name);
@@ -53,6 +34,31 @@ function jumpToOperationFromSelectedMessage() {
 		var selected = app.selections.getSelected();
 		if (selected) {
 			app.modelExplorer.select(selected, true);
+		}
+	}
+}
+
+function jumpToOperationFromSelectedMessageToLink() {
+	jumpToOperationFromSelectedMessage();
+	const selected = app.selections.getSelected();
+	if(selected.tags.length > 0) {
+		const tag = selected.tags[0];
+		if(tag.kind == "string" && tag.name.includes("link")) {
+			const url = tag.value;
+			if (url && url.startsWith("http")) {
+				exec(`start ${url}`, (error) => {
+					// if (error) {
+					// 	console.error(`Failed to open URL: ${error.message}`);
+					// 	app.toast.error(`Failed to open URL: ${error.message}`);
+					// }
+				});
+			} else {
+				app.toast.error("The tag value is not a valid URL.");
+			}
+		}
+		if(tag.name === "operation") {
+			app.modelExplorer.select(tag, true);
+
 		}
 	}
 }
@@ -128,6 +134,7 @@ function searchAndLaunchApp(targetFileName) {
 
 function init() {
 	app.commands.register('jump-to-operation:from-selected-message', jumpToOperationFromSelectedMessage);
+	app.commands.register('jump-to-operation:from-selected-message-to-link', jumpToOperationFromSelectedMessageToLink);
 	app.commands.register("jump-to-operation:search-and-launch-app", searchAndLaunchApp, "Search and Launch App");
 }
 
