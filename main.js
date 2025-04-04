@@ -63,6 +63,26 @@ function jumpToOperationFromSelectedMessageToLink() {
 	}
 }
 
+function jumpToRef() {
+	var selected = app.selections.getSelected();
+	if(selected && selected instanceof type.UMLInteractionUse) {
+		if(selected.refersTo) {
+			const ownedElements = selected.refersTo.ownedElements;
+			if(ownedElements.length > 0) {
+				const diagram = ownedElements.find(e => e instanceof type.UMLDiagram);			
+				if(diagram instanceof type.UMLDiagram) {
+					app.diagrams.openDiagram(diagram);
+					setTimeout(() => {
+						app.modelExplorer.select(diagram, true);
+					});
+				} else {
+					app.toast.info("The selected message does not have an associated operation.");
+				}
+			}
+		}
+	}	
+}
+
 function openSpecificMdjAndLaunchApp(targetFileName, appPath) {
 	const currentProjectPath = app.project.filename;
 	if (!currentProjectPath) {
@@ -135,6 +155,8 @@ function searchAndLaunchApp(targetFileName) {
 function init() {
 	app.commands.register('jump-to-operation:from-selected-message', jumpToOperationFromSelectedMessage);
 	app.commands.register('jump-to-operation:from-selected-message-to-link', jumpToOperationFromSelectedMessageToLink);
+	app.commands.register('jump-to-operation:from-ref', jumpToRef);
+
 	app.commands.register("jump-to-operation:search-and-launch-app", searchAndLaunchApp, "Search and Launch App");
 }
 

@@ -11,6 +11,11 @@
         "label": "jumpToLink",
         "id": "example.submenu1",
         "command": "jump-to-operation:from-selected-message-to-link"
+      },
+      {
+        "label": "jumpToRef",
+        "id": "example.submenu2",
+        "command": "jump-to-operation:from-ref"
       }
     ]
   }
